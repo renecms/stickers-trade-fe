@@ -6,10 +6,10 @@
         <v-toolbar-title>{{ store.appBarTitle}}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-app-bar>
-      <v-navigation-drawer color="grey-darken-2" v-model="drawer">
+      <v-navigation-drawer color="grey-darken-2" v-model="drawer" temporary>
         <v-list nav>
-          <v-list-item to="stickers_list" title="Lista de figurinhas" value="Lista de figurinhas"/>
-          <v-list-item to="trade_points" title="Pontos de troca" value="Pontos de troca" />
+          <v-list-item prepend-icon="mdi-cards-outline" to="stickers_list" title="Lista de figurinhas" value="Lista de figurinhas"/>
+          <v-list-item prepend-icon="mdi-pin-outline" to="trade_points" title="Pontos de troca" value="Pontos de troca" />
         </v-list>
       </v-navigation-drawer>
      
