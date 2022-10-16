@@ -1,5 +1,5 @@
 <template>
-Rene
+Trade Point
 
 </template>
 
