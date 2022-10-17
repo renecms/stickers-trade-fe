@@ -80,6 +80,7 @@
 </template>
 
 <script lang="ts">
+
 interface Sticker {
   id: number;
   name: string;
@@ -95,35 +96,7 @@ export default {
       showOwned: false,
       searchTerm: "",
       selectedCountry: "",
-      stickers: [
-        {
-          id: 1,
-          name: 'Cristiano Ronaldo',
-          number: 7,
-          imageUrl: "https://inmagazine.ig.com.br/public/assets/img/galeria-imagens/CR7.jpg",
-          country: "Portugal",
-          wishlisted: false,
-          owned: true
-        },
-        {
-          id: 2,
-          name: 'Lionel Messi',
-          number: 10,
-          imageUrl: "https://http2.mlstatic.com/D_NQ_NP_758194-MLB51370916676_092022-W.jpg",
-          country: "Argentina",
-          wishlisted: false,
-          owned: true
-        },
-        {
-          id: 3,
-          name: 'Neymar',
-          number: 10,
-          imageUrl: "https://imagens.ne10.uol.com.br/veiculos/_midias/png/2022/08/29/figurinha_dourada_de_neymar-21628926.png",
-          country: "Brasil",
-          wishlisted: false,
-          owned: false
-        }
-      ],
+      stickers: new Array() as Array<Sticker>,
     }
   },
   computed: {
@@ -131,7 +104,7 @@ export default {
       this.stickers
       const filterOwned = (list: Array<Sticker>) => {
         return this.showOwned ? list.filter(sticker => sticker.owned != this.showOwned) : list
-      } 
+      }
       const filterName = (list: Array<Sticker>) => {
         return this.searchTerm ? list.filter(sticker => sticker.name.toLocaleLowerCase().includes(this.searchTerm.toLocaleLowerCase())) : list;
       }
@@ -144,6 +117,12 @@ export default {
       return [...new Set(this.stickers.map(sticker => sticker.country))];
     }
   },
+  mounted() {
+    fetch("https://stickers-trade-be-vqklpjxjja-rj.a.run.app/sticker")
+      .then(response => response.json())
+      .then(data => this.stickers = data);
+
+  },
   methods: {
     wishlistChange(item: Sticker) {
       console.log(item);
@@ -154,6 +133,7 @@ export default {
 
     }
   }
+
 }
 </script>
 
