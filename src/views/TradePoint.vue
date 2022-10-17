@@ -1,6 +1,5 @@
 <template>
-Trade Point
-
+  Trade Point
 </template>
 
 <script  setup lang="ts">
