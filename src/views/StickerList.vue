@@ -1,12 +1,12 @@
 <template>
   <v-row>
-    <v-col cols="4">
+    <v-col cols="5">
       <v-text-field
         v-model="searchTerm"
         label="Busca por nome do jogador"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="2">
       <v-combobox
         v-model="selectedCountry"
         clearable
@@ -14,7 +14,7 @@
         label="País"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="3">
       <v-checkbox
         v-model="showOwned"
         label="Mostrar apenas figurinhas não obtidas"
@@ -109,7 +109,7 @@ export default {
         return this.searchTerm ? list.filter(sticker => sticker.name.toLocaleLowerCase().includes(this.searchTerm.toLocaleLowerCase())) : list;
       }
       const filterCountry = (list: Array<Sticker>) => {
-        return this.selectedCountry ? list.filter(sticker => sticker.country == this.selectedCountry) : list;
+        return this.selectedCountry ? list.filter(sticker => sticker.country.toLocaleLowerCase().includes(this.selectedCountry.toLocaleLowerCase())) : list;
       }
       return filterCountry(filterName(filterOwned(this.stickers)));
     },
