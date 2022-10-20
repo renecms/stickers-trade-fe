@@ -24,7 +24,7 @@
           />
           <v-list-item
             prepend-icon="mdi-logout"
-            to="/"
+            to="login"
             title="Sair"
             value="logout"
             @click="logout"

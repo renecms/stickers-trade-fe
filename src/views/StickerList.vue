@@ -101,7 +101,6 @@ export default {
   },
   computed: {
     listOfStickers(): Array<Sticker> {
-      this.stickers
       const filterOwned = (list: Array<Sticker>) => {
         return this.showOwned ? list.filter(sticker => sticker.owned != this.showOwned) : list
       }
