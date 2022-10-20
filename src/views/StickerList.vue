@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-
+import { store } from "../store.js"
 interface Sticker {
   id: number;
   name: string;
@@ -117,19 +117,45 @@ export default {
       return [...new Set(this.stickers.map(sticker => sticker.country))];
     }
   },
-  mounted() {
+  async mounted() {
     fetch("https://stickers-trade-be-vqklpjxjja-rj.a.run.app/sticker")
       .then(response => response.json())
       .then(data => this.stickers = data);
 
+    let stickerResponse = await fetch("https://stickers-trade-be-vqklpjxjja-rj.a.run.app/sticker");
+    this.stickers = await stickerResponse.json()
+
+
+    let useResponse = await fetch(`https://stickers-trade-be-vqklpjxjja-rj.a.run.app/user/${store.user.id}`);
+    let useResponseJson = await useResponse.json();
+    this.stickers.forEach((sticker: Sticker) => {
+      let wishlist: Array<Sticker> = 
+        useResponseJson.userStickerWishList.filter((element: { id: number; }) => element.id == sticker.id);
+      let owned: Array<Sticker> = 
+        useResponseJson.userStickerOwnedList.filter((element: { id: number; }) => element.id == sticker.id);
+      if (wishlist.length > 0) {
+        sticker.wishlisted = true;
+      }
+
+      if (owned.length > 0) {
+        sticker.owned = true;
+      }
+    });
+
   },
   methods: {
     wishlistChange(item: Sticker) {
-      console.log(item);
+      fetch(`https://stickers-trade-be-vqklpjxjja-rj.a.run.app/user/${store.user.id}/sticker_wishlist/${item.id}`, {
+        method: item.wishlisted ? 'POST' : 'DELETE'
+      })
+        .then(response => console.log(response));
 
     },
     ownedChange(item: Sticker) {
-      console.log(item);
+      fetch(`https://stickers-trade-be-vqklpjxjja-rj.a.run.app/user/${store.user.id}/owned_sticker/${item.id}`, {
+        method: item.owned ? 'POST' : 'DELETE'
+      })
+        .then(response => console.log(response));
 
     }
   }
