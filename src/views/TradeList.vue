@@ -25,9 +25,6 @@
         <th class="text-left">
           Figurinhas que possui
         </th>
-        <th class="text-left">
-          Figurinhas que quer
-        </th>
       </tr>
     </thead>
     <tbody>
