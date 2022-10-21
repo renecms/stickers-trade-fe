@@ -8,7 +8,7 @@
         item-title="name"
         item-value="id"
         label="Ponto de troca"
-        @change="clickedTradePoint"
+        @update:modelValue="clickedTradePoint"
       />
     </v-col>
   </v-row>
@@ -20,16 +20,13 @@
           class="text-left"
           width="150"
         >
-          Figurinha
+          Nome
         </th>
         <th class="text-left">
-          Name
+          Figurinhas que possui
         </th>
         <th class="text-left">
-          Number
-        </th>
-        <th class="text-left">
-          País
+          Figurinhas que quer
         </th>
       </tr>
     </thead>
@@ -39,7 +36,7 @@
         :key="item.ownerId"
       >
         <td>{{ item.ownerName }}</td>
-        <td>{{ item.trades ? item.trades.map(trade => trade.stickerName + " - " + trade.stickerNumber).join("\n") : "" }}</td>
+        <td><pre>{{ item.trades ? item.trades.map(trade => trade.stickerName + " - " + trade.stickerNumber).join("\n") : "" }}</pre></td>
       </tr>
     </tbody>
   </v-table>
@@ -82,15 +79,18 @@ export default {
   },
   methods: {
     clickedTradePoint(event: any) {
-      console.log(event);
-      console.log(this.selectedTradePoint);
-      fetch(`https://stickers-trade-be-vqklpjxjja-rj.a.run.app/user/${store.user.id}/trades/${this.selectedTradePoint}`)
+      this.trades = []
+      let selected = this.tradePoints.find(tradePoint => tradePoint.name == event);
+      
+      if (selected) {
+        console.log(selected.id);
+        fetch(`https://stickers-trade-be-vqklpjxjja-rj.a.run.app/user/${store.user.id}/trades/${selected.id}`)
         .then(response => response.json())
         .then(data => {
           console.log(data)
           this.trades = data
         } );
-
+      }
     }
   }
 }
